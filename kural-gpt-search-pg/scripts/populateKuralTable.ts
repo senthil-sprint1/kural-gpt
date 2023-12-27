@@ -1,27 +1,51 @@
-import kuralJson from "../data/kural.json";
+import kurals from "../data/gpt/00_all_kurals.json";
 import { cleanupString, getEmbedding, openAiInstance, supabaseClient } from "./helper";
 import { KuralType } from "./types";
 
 export async function populateKuralTable(): Promise<void> {
-  for (const kural of kuralJson.kural) {
-    const input = JSON.stringify(kural);
-    const embedding = getEmbedding(input);
+  for (const kural of kurals) {
+    const input = formatKural(kural);
+    const embedding = await getEmbedding(input);
 
-    await supabaseClient.from("kural").upsert({
-      kural_number: kural.Number,
-      kural_json: kural,
-      oai_embedding: embedding,
-    });
-    console.log("inserted kural", kural.Number);
+    const response = await supabaseClient.from("kural").upsert(
+      {
+        kural_number: kural.number,
+        kural_json: kural,
+        oai_embedding: embedding,
+        updated_on: new Date(),
+      },
+      { ignoreDuplicates: false, onConflict: "kural_number" }
+    );
+    console.log("inserted kural", kural.number, response);
+  }
+
+  function formatKural(kural: KuralType) {
+    return `
+    This is from the Thirukural, a collection of 1330 Tamil couplets (kurals) organized into 133 chapters (adikaaram) by the poet Thiruvalluvar in the 1st century BC.
+    This is one specific kural from the collection.
+    ----------------
+    Thirukural Number: ${kural.number}
+    Original Thirukural:
+    ${kural.line1}
+    ${kural.line2}
+    Tamil Explanation:
+    mv: ${kural.mv}
+    sp: ${kural.sp}
+    mk: ${kural.mk}
+    English Translation:
+    ${kural.translation}
+    English Explanation:
+    ${kural.gptExplanation}
+      `;
   }
 }
 
 import fs from "fs";
 
-export async function updateExplanations(): Promise<void> {
+export async function createGptExplanations(): Promise<void> {
   const kurals: KuralType[] = [];
 
-  for (const kural of kuralJson.kural) {
+  for (const kural of kurals) {
     const response = await openAiInstance.chat.completions.create({
       model: "gpt-4",
       messages: [
@@ -36,9 +60,9 @@ export async function updateExplanations(): Promise<void> {
           content: `
           Write explanation in English for the following kural, 
 ___________
-Kural ${kural.Number}: 
-${kural.Line1}
-${kural.Line2}
+Kural ${kural.number}: 
+${kural.line1}
+${kural.line2}
 English Explination: 
 ${kural.explanation}
 Tamil Explination(mk):
@@ -57,19 +81,19 @@ ${kural.sp}
 
     const explanation = response.choices[0].message.content;
     const newKural: KuralType = {
-      line1: kural.Line1,
-      line2: kural.Line2,
-      translation: kural.Translation,
+      line1: kural.line1,
+      line2: kural.line2,
+      translation: kural.translation,
       explanation: kural.explanation,
       mk: kural.mk,
       mv: kural.mv,
       sp: kural.sp,
-      number: kural.Number,
+      number: kural.number,
       gptExplanation: explanation ?? "",
     };
     kurals.push(newKural);
     fs.writeFileSync(`./data/gpt/${newKural.number}.json`, JSON.stringify(newKural, null, 2));
-    console.log("inserted kural", kural.Number);
+    console.log("inserted kural", kural.number);
   }
 
   fs.writeFileSync(`./data/gpt/00_all_kurals.json`, JSON.stringify(kurals, null, 2));

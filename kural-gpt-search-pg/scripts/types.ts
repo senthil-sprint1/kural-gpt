@@ -1,9 +1,9 @@
 export type KuralTable = {
-  kural_json: Kural;
+  kural_json: KuralType;
   kural_number: number;
 };
 
-export type Kural = {
+export type KuralTypeOriginal = {
   Line1: string;
   Line2: string;
   Translation: string;
