@@ -11,15 +11,3 @@ export async function search({ query }: { query: string }): Promise<KuralTable[]
 
   return kurals;
 }
-
-export type KuralTable = {
-  kural_json: Kural;
-  kural_number: number;
-};
-export type Kural = {
-  Line1: string;
-  Line2: string;
-  explanation: string;
-  mk: string;
-  Number: number;
-};

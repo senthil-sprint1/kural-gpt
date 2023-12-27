@@ -1,6 +1,11 @@
+import { updateExplanations } from "./populateKuralTable";
 import { search } from "./search";
 
 async function main(): Promise<void> {
+  //await updateExplanations();
+}
+
+async function findMatchingKurals(): Promise<void> {
   const mom = "What makes a mom delightful?";
   const education = "What does thirukural say about being a student?";
   const educationTamil = "கல்வியை பற்றி திருக்குறள் என்ன சொல்கிறது?";
