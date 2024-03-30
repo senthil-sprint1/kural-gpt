@@ -3,17 +3,34 @@ import { KuralType } from "../types/types";
 
 export default function Kural({ kural }: { kural: KuralType }) {
   return (
-    <div>
-      <div>{kural.number}</div>
-      <div>{kural.line1}</div>
-      <div>{kural.line2}</div>
-      <div>{kural.translation}</div>
-      <div>{kural.mv}</div>
-      <div>{kural.sp}</div>
-      <div>{kural.mk}</div>
+    <div className="card my-3">
+      <div className="card-body">
+        <div>{kural.line1}</div>
+        <div>
+          {kural.line2} ({kural.number})
+        </div>
+        <div>
+          <strong>மு.வரதராசனார்: </strong>
+          {kural.mv}
+        </div>
+        <div>
+          <strong>சாலமன் பாப்பையா: </strong>
+          {kural.sp}
+        </div>
+        <div>
+          <strong>கலைஞர்: </strong>
+          {kural.mk}
+        </div>
 
-      <div>{kural.explanation}</div>
-      <div>{kural.gptExplanation}</div>
+        <div className="my-2">
+          <strong>English Translation: </strong>
+          {kural.translation}
+        </div>
+        <div className="my-2">
+          <strong>Explanation: </strong>
+          {kural.explanation}
+        </div>
+      </div>
     </div>
   );
 }

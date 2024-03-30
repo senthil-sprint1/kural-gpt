@@ -10,5 +10,5 @@ async function searchKural(query: string) {
 export async function findMatchingKurals(prevState: any, formData: FormData) {
   const query = formData.get("query") as string;
   const matchingKurals = await searchKural(query);
-  return { matchingKurals };
+  return { query, matchingKurals };
 }

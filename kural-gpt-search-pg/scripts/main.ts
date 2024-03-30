@@ -1,9 +1,11 @@
 import { createGptExplanations, populateKuralTable } from "./populateKuralTable";
 import { search } from "./search";
+import { updateMetadata } from "./updateMetadata";
 
 async function main(): Promise<void> {
   //await populateKuralTable();
-  await findMatchingKurals();
+  // await findMatchingKurals();
+  await updateMetadata();
 }
 
 async function findMatchingKurals(): Promise<void> {
