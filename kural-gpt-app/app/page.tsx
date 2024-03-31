@@ -161,11 +161,7 @@ function Ask({ onNewAsk }: { onNewAsk: (kural: KuralQueryResultType) => void }) 
   );
 
   function QueryButtons() {
-    const queries = [
-      "What does Thirukural say about friendship?",
-      "What does Thirukural say about love?",
-      "What does Thirukural say about parenting?",
-    ];
+    const queries = ["What makes a parent proud?"];
     return (
       <>
         {queries.map((q, i) => {
