@@ -28,7 +28,7 @@ interface Athigaram {
   end: number;
 }
 
-const meta: Pal[] = [
+export const meta: Pal[] = [
   {
     index: 1,
     name: "அறத்துப்பால்",
