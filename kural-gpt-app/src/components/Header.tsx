@@ -1,11 +1,21 @@
+"use client";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+
 export function Header() {
   return (
-    <nav className="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
+    <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <div className="container">
-        <a className="navbar-brand" href="/">
-          Kural GPT
-        </a>
+        <Navbar.Brand href="#home">KuralGPT</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="/">Ask</Nav.Link>
+            <Nav.Link href="/kural/1">Browse</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
       </div>
-    </nav>
+    </Navbar>
   );
 }

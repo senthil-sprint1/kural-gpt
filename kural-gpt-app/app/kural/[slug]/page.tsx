@@ -129,8 +129,8 @@ function getNavLinks(kuralNumber?: number) {
   if (!kuralNumber) {
     return { prev: undefined, next: undefined };
   }
-  const prev = kuralNumber >= 1 ? kuralNumber - 1 : undefined;
-  const next = kuralNumber <= 1330 ? kuralNumber + 1 : undefined;
+  const prev = kuralNumber > 1 ? kuralNumber - 1 : undefined;
+  const next = kuralNumber < 1330 ? kuralNumber + 1 : undefined;
 
   return { prev, next };
 }
