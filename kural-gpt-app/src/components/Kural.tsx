@@ -3,7 +3,7 @@ import { KuralType } from "../types/types";
 
 export default function Kural({ kural }: { kural: KuralType }) {
   return (
-    <div className="card my-3">
+    <div className="card">
       <div className="card-body">
         <div>{kural.line1}</div>
         <div>
