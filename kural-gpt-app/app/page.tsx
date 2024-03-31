@@ -19,27 +19,24 @@ export default function Home() {
     }
   }
   return (
-    <main>
-      <Header />
-      <div className="container">
-        {queries.map((kural, index) => {
-          return (
-            <div key={`${index}-${kural.query}`}>
-              <ChatContainer type="user">
-                <div>{kural.query}</div>
-              </ChatContainer>
+    <>
+      {queries.map((kural, index) => {
+        return (
+          <div key={`${index}-${kural.query}`}>
+            <ChatContainer type="user">
+              <div>{kural.query}</div>
+            </ChatContainer>
 
-              <ChatContainer type="kural-gpt">
-                {kural.matchingKurals.map((k, index) => {
-                  return <KuralCard kural={k.kural_json} key={`${k.kural_json.number}-${index}`} />;
-                })}
-              </ChatContainer>
-            </div>
-          );
-        })}
-        <Ask onNewAsk={onNewQuery} />
-      </div>
-    </main>
+            <ChatContainer type="kural-gpt">
+              {kural.matchingKurals.map((k, index) => {
+                return <KuralCard kural={k.kural_json} key={`${k.kural_json.number}-${index}`} />;
+              })}
+            </ChatContainer>
+          </div>
+        );
+      })}
+      <Ask onNewAsk={onNewQuery} />
+    </>
   );
 }
 
