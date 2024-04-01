@@ -26,7 +26,9 @@ export default function Home() {
         <div style={{ height: "80vh" }} className="d-flex flex-column justify-content-center align-items-center">
           <h1>Welcome to KuralGPT!</h1>
           <h6>This is an experiment to try latest LLM techniques with ancient Tamil literature Thirukural.</h6>
-          <p>You can ask questions like below and we try to find the relevant kurals for your query. </p>
+          <p className="mt-4">
+            You can ask questions like below and we try to find the relevant kurals for your query.{" "}
+          </p>
           <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} buttonJustification="center" />
         </div>
       )}
@@ -218,7 +220,7 @@ function QueryButtons({
     "What does Thirukural say about love?",
     "What does Thirukural say about parenting?",
     "What makes parents proud?",
-    "What does thirukural say about project manager?",
+    "What does thirukural say about project managers?",
     "What makes someone a great leader?",
   ];
   return (
