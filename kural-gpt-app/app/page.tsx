@@ -1,7 +1,6 @@
 "use client";
 
-import Kural from "@/src/components/Kural";
-
+import s1Logo from "@/public/Sprint1-Logo-lt-bg.png";
 import { useFormState, useFormStatus } from "react-dom";
 import { findMatchingKurals } from "./page.action";
 import { Header } from "@/src/components/Header";
@@ -24,10 +23,13 @@ export default function Home() {
   return (
     <>
       {queries.length === 0 && (
-        <div style={{ height: "80vh" }} className="d-flex flex-column justify-content-center align-items-center">
-          <h1>Welcome to KuralGPT!</h1>
-          <h6>
-            This is an experiment to try latest LLM techniques with ancient Tamil literature{" "}
+        <div
+          style={{ height: "80vh" }}
+          className="d-flex flex-column justify-content-center align-items-center text-center"
+        >
+          <h1 className="mt-3">Welcome to KuralGPT</h1>
+          <h6 className="">
+            This is an experiment to try latest LLM techniques on ancient Tamil literature{" "}
             <a href="https://en.wikipedia.org/wiki/Kural" target="_blank">
               {" "}
               Thirukural
@@ -38,6 +40,20 @@ export default function Home() {
             You can ask questions like below and we try to find the relevant kurals for your query.{" "}
           </p>
           <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} buttonJustification="center" />
+          <div className="mt-4">
+            <div className="text-center">
+              <a href="https://www.sprint1.vc/" target="_blank">
+                <img src={s1Logo.src} style={{ height: "5vh" }} />
+              </a>
+            </div>
+            <div className="form-text">
+              Proudly built by{" "}
+              <a href="https://www.sprint1.vc/" target="_blank">
+                Sprint1
+              </a>{" "}
+              in Milwaukee, WI
+            </div>
+          </div>
         </div>
       )}
       {queries.length > 0 && (
