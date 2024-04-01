@@ -7,6 +7,7 @@ import { findMatchingKurals } from "./page.action";
 import { Header } from "@/src/components/Header";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { KuralTable, KuralType } from "@/src/types/types";
+import { Meta } from "@/src/components/Meta";
 
 export default function Home() {
   const [queries, setQueries] = useState<KuralQueryResultType[]>([]);
@@ -76,7 +77,14 @@ function KuralCard({ kural }: { kural: KuralType }) {
                   ({kural.number})
                 </span>
               </div>
-              <div className="my-2">{kural.explanation}</div>
+
+              <div className="my-2 fst-italic form-text" title="சாலமன் பாப்பையா">
+                {kural.sp}
+              </div>
+
+              <div className="my-2 fst-italic form-text">{kural.explanation}</div>
+
+              <Meta kuralId={kural.number} showNav={false} />
             </div>
 
             <div className="flex-flex-shrink-0 d-flex flex-column justify-content-center">
