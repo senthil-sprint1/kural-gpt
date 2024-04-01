@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Header } from "@/src/components/Header";
+import "./App.scss";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Space_Grotesk } from "next/font/google";
+const inter = Space_Grotesk({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Kural GPT",

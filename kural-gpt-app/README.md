@@ -1,8 +1,8 @@
 # TODO
 
-- Change font
-- Change primary color to black
-- Polish Home Page
+- X Change font
+- X Change primary color to black
+- X Polish Home Page
 - Add Sprint1 logo
 - Add Browse Page
   - Add Go to page

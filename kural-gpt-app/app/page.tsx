@@ -26,7 +26,14 @@ export default function Home() {
       {queries.length === 0 && (
         <div style={{ height: "80vh" }} className="d-flex flex-column justify-content-center align-items-center">
           <h1>Welcome to KuralGPT!</h1>
-          <h6>This is an experiment to try latest LLM techniques with ancient Tamil literature Thirukural.</h6>
+          <h6>
+            This is an experiment to try latest LLM techniques with ancient Tamil literature{" "}
+            <a href="https://en.wikipedia.org/wiki/Kural" target="_blank">
+              {" "}
+              Thirukural
+            </a>
+            .
+          </h6>
           <p className="mt-4">
             You can ask questions like below and we try to find the relevant kurals for your query.{" "}
           </p>
