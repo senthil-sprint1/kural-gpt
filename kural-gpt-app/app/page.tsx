@@ -26,7 +26,7 @@ export default function Home() {
           <h1>Welcome to KuralGPT!</h1>
           <h6>This is an experiment to try latest LLM techniques with ancient Tamil literature Thirukural.</h6>
           <p>You can ask questions like below and we try to find the relevant kurals for your query. </p>
-          <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} />
+          <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} buttonJustification="center" />
         </div>
       )}
       {queries.length > 0 && (
@@ -188,7 +188,15 @@ function Ask({ onNewAsk, query }: { onNewAsk: (kural: KuralQueryResultType) => v
   );
 }
 
-function QueryButtons({ onQuerySelected, pending }: { pending: boolean; onQuerySelected: (query: string) => void }) {
+function QueryButtons({
+  onQuerySelected,
+  pending,
+  buttonJustification = "start",
+}: {
+  buttonJustification?: "center" | "start";
+  pending: boolean;
+  onQuerySelected: (query: string) => void;
+}) {
   const queries = [
     "What does Thirukural say about friendship?",
     "What does Thirukural say about love?",
@@ -196,7 +204,7 @@ function QueryButtons({ onQuerySelected, pending }: { pending: boolean; onQueryS
     "What makes parents proud?",
   ];
   return (
-    <div className="d-flex flex-wrap">
+    <div className={`d-flex flex-wrap justify-content-${buttonJustification}`}>
       {queries.map((q, i) => {
         return (
           <button
