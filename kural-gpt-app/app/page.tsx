@@ -10,6 +10,7 @@ import { KuralTable, KuralType } from "@/src/types/types";
 
 export default function Home() {
   const [queries, setQueries] = useState<KuralQueryResultType[]>([]);
+  const [currentQuery, setCurrentQuery] = useState<string>();
   function onNewQuery(kural: KuralQueryResultType) {
     if (kural.query) {
       const matching = queries.find((q) => q.query === kural.query);
@@ -20,22 +21,40 @@ export default function Home() {
   }
   return (
     <>
-      {queries.map((kural, index) => {
-        return (
-          <div key={`${index}-${kural.query}`}>
-            <ChatContainer type="user">
-              <div>{kural.query}</div>
-            </ChatContainer>
+      {queries.length === 0 && (
+        <div style={{ height: "80vh" }} className="d-flex flex-column justify-content-center align-items-center">
+          <h1>Welcome to KuralGPT!</h1>
+          <h6>This is an experiment to try latest LLM techniques with ancient Tamil literature Thirukural.</h6>
+          <p>You can ask questions like below and we try to find the relevant kurals for your query. </p>
+          <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} />
+        </div>
+      )}
+      {queries.length > 0 && (
+        <div>
+          {queries.map((kural, index) => {
+            return (
+              <div key={`${index}-${kural.query}`}>
+                <ChatContainer type="user">
+                  <div>{kural.query}</div>
+                </ChatContainer>
 
-            <ChatContainer type="kural-gpt">
-              {kural.matchingKurals.map((k, index) => {
-                return <KuralCard kural={k.kural_json} key={`${k.kural_json.number}-${index}`} />;
-              })}
-            </ChatContainer>
-          </div>
-        );
-      })}
-      <Ask onNewAsk={onNewQuery} />
+                <ChatContainer type="kural-gpt">
+                  {kural.matchingKurals.map((k, index) => {
+                    return <KuralCard kural={k.kural_json} key={`${k.kural_json.number}-${index}`} />;
+                  })}
+                </ChatContainer>
+              </div>
+            );
+          })}
+
+          <ChatContainer type="kural-gpt">
+            <div className="my-2">Here are few more suggestions you can try...</div>
+            <QueryButtons onQuerySelected={(q) => setCurrentQuery(q)} pending={false} />
+          </ChatContainer>
+        </div>
+      )}
+
+      <Ask onNewAsk={onNewQuery} query={currentQuery} />
     </>
   );
 }
@@ -125,7 +144,7 @@ interface KuralQueryResultType {
   matchingKurals: KuralTable[];
 }
 
-function Ask({ onNewAsk }: { onNewAsk: (kural: KuralQueryResultType) => void }) {
+function Ask({ onNewAsk, query }: { onNewAsk: (kural: KuralQueryResultType) => void; query?: string }) {
   const [kurals, submitSearch] = useFormState(findMatchingKurals, { query: "", matchingKurals: [] });
   const { pending } = useFormStatus();
 
@@ -133,21 +152,29 @@ function Ask({ onNewAsk }: { onNewAsk: (kural: KuralQueryResultType) => void }) 
   const textInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    document.body.style.paddingBottom = "7.5rem";
+  }, []);
+
+  useEffect(() => {
+    textInputRef.current!.value = query ?? "";
+    formRef.current!.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
+    textInputRef.current!.value = "";
+  }, [query]);
+
+  useEffect(() => {
     onNewAsk(kurals);
   }, [kurals, onNewAsk]);
 
   return (
-    <div className="container-fluid fixed-bottom bg-white shadow-lg p-4">
+    <div className="container-fluid fixed-bottom bg-white shadow-lg p-3">
       <div className="container ">
-        <QueryButtons />
         <form action={submitSearch} ref={formRef}>
-          <div className="mb-3">{/* <QueryButtons /> */}</div>
           <div className="input-group ">
             <input
               type="text"
               className="form-control"
               name="query"
-              style={{ padding: "1rem" }}
+              style={{ padding: "0.75rem" }}
               ref={textInputRef}
               placeholder="What are you curious about Thiru Kural today?"
             />
@@ -159,27 +186,31 @@ function Ask({ onNewAsk }: { onNewAsk: (kural: KuralQueryResultType) => void }) 
       </div>
     </div>
   );
+}
 
-  function QueryButtons() {
-    const queries = ["What makes a parent proud?"];
-    return (
-      <>
-        {queries.map((q, i) => {
-          return (
-            <button
-              className="btn btn-outline-secondary me-2"
-              onClick={() => {
-                textInputRef.current!.value = q;
-                formRef.current!.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
-              }}
-              disabled={pending}
-              key={`query-button-${i}-${q}`}
-            >
-              {q}
-            </button>
-          );
-        })}
-      </>
-    );
-  }
+function QueryButtons({ onQuerySelected, pending }: { pending: boolean; onQuerySelected: (query: string) => void }) {
+  const queries = [
+    "What does Thirukural say about friendship?",
+    "What does Thirukural say about love?",
+    "What does Thirukural say about parenting?",
+    "What makes parents proud?",
+  ];
+  return (
+    <div className="d-flex flex-wrap">
+      {queries.map((q, i) => {
+        return (
+          <button
+            className="btn btn-outline-secondary m-2"
+            onClick={() => {
+              onQuerySelected(q);
+            }}
+            disabled={pending}
+            key={`query-button-${i}-${q}`}
+          >
+            {q}
+          </button>
+        );
+      })}
+    </div>
+  );
 }

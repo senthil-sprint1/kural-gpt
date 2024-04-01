@@ -7,7 +7,7 @@ export function Header() {
   return (
     <Navbar expand="lg" bg="dark" data-bs-theme="dark">
       <div className="container">
-        <Navbar.Brand href="#home">KuralGPT</Navbar.Brand>
+        <Navbar.Brand href="/">KuralGPT</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
