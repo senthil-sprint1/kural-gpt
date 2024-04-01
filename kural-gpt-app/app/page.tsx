@@ -11,6 +11,7 @@ import { KuralTable, KuralType } from "@/src/types/types";
 export default function Home() {
   const [queries, setQueries] = useState<KuralQueryResultType[]>([]);
   const [currentQuery, setCurrentQuery] = useState<string>();
+
   function onNewQuery(kural: KuralQueryResultType) {
     if (kural.query) {
       const matching = queries.find((q) => q.query === kural.query);
@@ -34,7 +35,7 @@ export default function Home() {
           {queries.map((kural, index) => {
             return (
               <div key={`${index}-${kural.query}`}>
-                <ChatContainer type="user">
+                <ChatContainer type="user" shouldScrollIntoView>
                   <div>{kural.query}</div>
                 </ChatContainer>
 
@@ -98,9 +99,24 @@ function KuralCard({ kural }: { kural: KuralType }) {
   );
 }
 
-function ChatContainer({ type, children }: { type: "user" | "kural-gpt"; children: ReactNode }) {
+function ChatContainer({
+  type,
+  children,
+  shouldScrollIntoView,
+}: {
+  type: "user" | "kural-gpt";
+  children: ReactNode;
+  shouldScrollIntoView?: boolean;
+}) {
+  const divRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (shouldScrollIntoView && divRef.current !== null) {
+      divRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
-    <div className="d-flex my-2">
+    <div className="d-flex my-2" ref={divRef}>
       <div className="flex-shrink-0">
         {type === "user" && (
           <svg
@@ -202,6 +218,8 @@ function QueryButtons({
     "What does Thirukural say about love?",
     "What does Thirukural say about parenting?",
     "What makes parents proud?",
+    "What does thirukural say about project manager?",
+    "What makes someone a great leader?",
   ];
   return (
     <div className={`d-flex flex-wrap justify-content-${buttonJustification}`}>
