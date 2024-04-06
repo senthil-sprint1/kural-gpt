@@ -13,6 +13,7 @@ export function Header() {
           <Nav className="me-auto">
             <Nav.Link href="/">Ask</Nav.Link>
             <Nav.Link href="/kural/1">Browse</Nav.Link>
+            <Nav.Link href="/kural/search">Search</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </div>
