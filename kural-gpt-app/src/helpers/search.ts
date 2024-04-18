@@ -18,5 +18,5 @@ export async function search({
   });
 
   //Supabase types is wrong, it should be KuralTable[]
-  return kurals as unknown as KuralTable[];
+  return (kurals || []) as unknown as KuralTable[];
 }

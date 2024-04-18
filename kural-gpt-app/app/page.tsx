@@ -3,10 +3,8 @@
 import s1Logo from "@/public/Sprint1-Logo-lt-bg.png";
 import { useFormState, useFormStatus } from "react-dom";
 import { findMatchingKurals } from "./page.action";
-import { Header } from "@/src/components/Header";
 import { ReactNode, useEffect, useRef, useState } from "react";
-import { KuralTable, KuralType } from "@/src/types/types";
-import { Meta } from "@/src/components/Meta";
+import { KuralTable } from "@/src/types/types";
 import { KuralCard } from "@/src/components/KuralCard";
 
 export default function Home() {
@@ -17,7 +15,7 @@ export default function Home() {
     if (kural.query) {
       const matching = queries.find((q) => q.query === kural.query);
       if (!matching) {
-        setQueries((p) => [...p, kural]);
+        setQueries((p) => [...p, { query: kural.query, matchingKurals: kural.matchingKurals || [] }]);
       }
     }
   }
@@ -149,7 +147,10 @@ interface KuralQueryResultType {
 }
 
 function Ask({ onNewAsk, query }: { onNewAsk: (kural: KuralQueryResultType) => void; query?: string }) {
-  const [kurals, submitSearch] = useFormState(findMatchingKurals, { query: "", matchingKurals: [] });
+  const [kurals, submitSearch] = useFormState(findMatchingKurals, {
+    query: "",
+    matchingKurals: [],
+  });
   const { pending } = useFormStatus();
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -180,7 +181,7 @@ function Ask({ onNewAsk, query }: { onNewAsk: (kural: KuralQueryResultType) => v
               name="query"
               style={{ padding: "0.75rem" }}
               ref={textInputRef}
-              placeholder="What are you curious about Thiru Kural today?"
+              placeholder="What are you curious about Kural today?"
             />
             <button className="btn btn-outline-secondary" type="submit" aria-disabled={pending} disabled={pending}>
               Ask

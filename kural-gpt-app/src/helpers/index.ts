@@ -3,7 +3,7 @@ import { config } from "./config";
 import OpenAI from "openai";
 import { Database } from "../types/supabaseTypes";
 
-export const supabaseClient = createClient<Database>(config.supabase.url, config.supabase.key);
+export const supabaseClient = createClient<Database>(config.supabase.url, config.supabase.key!);
 
 export const openAiInstance = new OpenAI({ apiKey: config.openAI.key });
 export async function getEmbedding(input: string) {
